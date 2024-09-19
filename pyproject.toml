@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "nanami"
 version = "0.1.0"
-description = ""
+description = "Middleman between OpenFinance and YNAB"
 authors = ["Gabriel S. <me@souzagab.com>"]
 readme = "README.md"
 packages = [{include = "*", from="app"}]
