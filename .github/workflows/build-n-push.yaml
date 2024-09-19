@@ -42,12 +42,12 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-        tags: |
-          type=ref,event=tag,prefixes=v,release-
-          type=ref,event=branch,ref=main,latest=true
-        labels: |
-          org.opencontainers.image.source=${{ github.repository }}
-          org.opencontainers.image.revision=${{ github.sha }}
+          tags: |
+            type=ref,event=tag,prefixes=v,release-
+            type=ref,event=branch,ref=main,latest=true
+          labels: |
+            org.opencontainers.image.source=${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
 
       - name: Build and push Docker image
         id: push
