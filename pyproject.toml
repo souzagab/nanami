@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "nanami"
+version = "0.1.0"
+description = ""
+authors = ["Gabriel S. <me@souzagab.com>"]
+readme = "README.md"
+packages = [{include = "*", from="app"}]
+
+[tool.poetry.dependencies]
+python = "3.12.*"
+fastapi = "^0.115.0"
+uvicorn = "^0.30.6"
+gunicorn = "^23.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
