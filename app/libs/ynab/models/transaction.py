@@ -1,9 +1,8 @@
 from typing import List, Optional
 from uuid import UUID
 
-from pydantic import BaseModel, Field
-
 from libs.ynab.models.category import Category
+from pydantic import BaseModel, Field
 
 
 class SubTransaction(BaseModel):

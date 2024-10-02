@@ -1,9 +1,9 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from libs.ynab.ynab_client import YNABClient
 
 from config.settings import Settings
-from libs.ynab.ynab_client import YNABClient
 
 
 @asynccontextmanager

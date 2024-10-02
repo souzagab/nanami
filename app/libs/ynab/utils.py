@@ -1,8 +1,7 @@
 import httpx
-
 from pydantic import ValidationError
 
-from .exceptions import NotFoundError, BadRequestError, YNABError
+from .exceptions import BadRequestError, NotFoundError, YNABError
 
 
 def parse_response(response, model):

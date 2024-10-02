@@ -1,5 +1,6 @@
-from fastapi import Request, Depends
+from fastapi import Request
 from libs.ynab.ynab_client import YNABClient
+
 
 def get_ynab_client(request: Request) -> YNABClient:
     """
