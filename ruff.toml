@@ -4,6 +4,7 @@ indent-width = 2
 
 [lint]
 select = ["F", "I", "UP"]
+extend-select = ["I"]
 ignore = []
 fixable = ["ALL"]
 
