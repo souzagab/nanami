@@ -1,5 +1,7 @@
 import httpx
 
+from libs.ynab.clients.accounts_client import AccountsClient
+
 
 class YNABClient:
   """
@@ -28,6 +30,9 @@ class YNABClient:
       self.session = httpx.AsyncClient(headers=self.headers, base_url=self.BASE_URL)
     else:
       self.session = httpx.Client(headers=self.headers, base_url=self.BASE_URL)
+
+    # API Contexts
+    self.accounts = AccountsClient(self.session, async_mode=self.async_mode)
 
   def close(self):
     """

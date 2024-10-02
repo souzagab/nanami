@@ -1,7 +1,7 @@
 from typing import List
 
-from libs.ynab.clients.account import Account, AccountResponse, AccountsResponse, CreateAccount
-from utils import parse_response
+from ..models.account import Account, AccountResponse, AccountsResponse, CreateAccount
+from ..utils import parse_response
 
 
 class AccountsClient:
