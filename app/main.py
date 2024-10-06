@@ -1,10 +1,11 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
-from libs.pluggy.pluggy_client import PluggyAIClient
-from libs.ynab.ynab_client import YNABClient
 
 from config.settings import Settings
+
+from .libs.pluggy.pluggy_client import PluggyAIClient
+from .libs.ynab.ynab_client import YNABClient
 
 
 @asynccontextmanager
@@ -16,7 +17,7 @@ async def lifespan(app: FastAPI):
         yield
     finally:
         await app.state.ynab_client.aclose()
-        await app.state.pluggy_client.close()
+        await app.state.pluggy_client.async_close()
 
 
 app = FastAPI(lifespan=lifespan, debug=Settings.debug)
