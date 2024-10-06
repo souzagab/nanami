@@ -1,7 +1,7 @@
 from typing import List, Optional
 from uuid import UUID
 
-from libs.ynab.models.category import Category
+from app.libs.ynab.models.category import Category
 from pydantic import BaseModel, Field
 
 

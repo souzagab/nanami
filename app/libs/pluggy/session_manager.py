@@ -3,7 +3,7 @@ from typing import Any, Dict, Optional
 
 import httpx
 
-from config.settings import Settings
+from app.config.settings import Settings
 
 from .models.auth import AuthRequest, AuthResponse
 

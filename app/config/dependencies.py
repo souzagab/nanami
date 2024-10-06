@@ -1,11 +1,11 @@
 from typing import AsyncGenerator
 
 from fastapi import Request
-from libs.pluggy.pluggy_client import PluggyAIClient
-from libs.ynab.ynab_client import YNABClient
+from app.libs.pluggy.pluggy_client import PluggyAIClient
+from app.libs.ynab.ynab_client import YNABClient
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from config.database import async_session_maker
+from app.config.database import async_session_maker
 
 
 async def get_session() -> AsyncGenerator[AsyncSession, None]:

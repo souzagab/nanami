@@ -11,4 +11,4 @@ RUN poetry config virtualenvs.create false \
 
 COPY . /nanami/
 
-CMD ["gunicorn", "--pythonpath", "/nanami", "app.main:app", "-c", "gunicorn.conf.py"]
+CMD ["gunicorn", "app.main:app", "-c", "gunicorn.conf.py"]

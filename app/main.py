@@ -2,10 +2,9 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from config.settings import Settings
-
-from .libs.pluggy.pluggy_client import PluggyAIClient
-from .libs.ynab.ynab_client import YNABClient
+from app.config.settings import Settings
+from app.libs.pluggy.pluggy_client import PluggyAIClient
+from app.libs.ynab.ynab_client import YNABClient
 
 
 @asynccontextmanager

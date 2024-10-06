@@ -2,7 +2,7 @@ from typing import Optional
 
 import httpx
 
-from config.settings import Settings
+from app.config.settings import Settings
 
 from .clients.accounts_client import AccountsClient
 from .clients.budgets_client import BudgetsClient
