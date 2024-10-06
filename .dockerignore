@@ -6,4 +6,5 @@ Dockerfile
 .gitignore
 .python-version
 README.md
-
+.idea/
+docker-compose.yaml
