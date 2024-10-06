@@ -1,7 +1,16 @@
+from typing import AsyncGenerator
+
 from fastapi import Request
 from libs.pluggy.pluggy_client import PluggyAIClient
 from libs.ynab.ynab_client import YNABClient
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from config.database import async_session_maker
+
+
+async def get_session() -> AsyncGenerator[AsyncSession, None]:
+    async with async_session_maker() as session:
+        yield session
 
 def get_ynab_client(request: Request) -> YNABClient:
     """
@@ -11,3 +20,4 @@ def get_ynab_client(request: Request) -> YNABClient:
 
 def get_pluggy_client(request: Request) -> PluggyAIClient:
     return request.app.state.pluggy_client
+
