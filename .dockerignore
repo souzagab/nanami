@@ -1,1 +1,9 @@
 ###
+__pycache__
+.ruff_cache
+.venv
+Dockerfile
+.gitignore
+.python-version
+README.md
+
