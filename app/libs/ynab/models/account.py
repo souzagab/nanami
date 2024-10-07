@@ -67,6 +67,7 @@ class Account(BaseModel):
     description="Escrow amounts for debt accounts",
   )
 
+
 class CreateAccount(BaseModel):
   """
   Represents the data required to create a new account.
@@ -79,6 +80,7 @@ class CreateAccount(BaseModel):
   on_budget: Optional[bool] = Field(True, description="Whether the account is on budget")
   closed: Optional[bool] = Field(False, description="Whether the account is closed")
 
+
 class AccountData(BaseModel):
   account: Account
 
@@ -86,9 +88,11 @@ class AccountData(BaseModel):
 class AccountResponse(BaseModel):
   data: AccountData
 
+
 class AccountsData(BaseModel):
   accounts: List[Account]
   server_knowledge: int
+
 
 class AccountsResponse(BaseModel):
   data: AccountsData

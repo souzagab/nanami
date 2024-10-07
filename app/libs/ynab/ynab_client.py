@@ -27,10 +27,7 @@ class YNABClient:
     self.async_mode = async_mode or Settings.ynab_async_mode
 
     if not self.access_token:
-      raise ValueError(
-        "YNAB_ACCESS_TOKEN must be provided either as arguments or environment variables."
-      )
-
+      raise ValueError("YNAB_ACCESS_TOKEN must be provided either as arguments or environment variables.")
 
     self.headers = {
       "Authorization": f"Bearer {self.access_token}",

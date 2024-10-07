@@ -1,55 +1,53 @@
-
-
 from ..models.item import Item
 from ..session_manager import SessionManager
 
 
 class ItemsClient:
+  """
+  Client for interacting with the Item endpoints of the Pluggy API.
+  """
+
+  def __init__(self, session: SessionManager):
     """
-    Client for interacting with the Item endpoints of the Pluggy API.
+    Initializes the ItemClient.
+
+    Args:
+        session (BaseClient): An instance of BaseClient.
     """
+    self.session = session
 
-    def __init__(self, session: SessionManager):
-        """
-        Initializes the ItemClient.
+  def get_item(self, item_id: str) -> Item:
+    """
+    Retrieves a specific item by its ID.
 
-        Args:
-            session (BaseClient): An instance of BaseClient.
-        """
-        self.session = session
+    Args:
+        item_id (str): The ID of the item to retrieve.
 
-    def get_item(self, item_id: str) -> Item:
-        """
-        Retrieves a specific item by its ID.
+    Returns:
+        Item: The retrieved item.
 
-        Args:
-            item_id (str): The ID of the item to retrieve.
+    Raises:
+        httpx.HTTPStatusError: If the request fails.
+    """
+    url = f"/items/{item_id}"
+    response = self.session.request_sync("GET", url)
 
-        Returns:
-            Item: The retrieved item.
+    return Item(**response)
 
-        Raises:
-            httpx.HTTPStatusError: If the request fails.
-        """
-        url = f"/items/{item_id}"
-        response = self.session.request_sync("GET", url)
+  async def async_get_item(self, item_id: str) -> Item:
+    """
+    Asynchronously retrieves a specific item by its ID.
 
-        return Item(**response)
+    Args:
+        item_id (str): The ID of the item to retrieve.
 
-    async def async_get_item(self, item_id: str) -> Item:
-        """
-        Asynchronously retrieves a specific item by its ID.
+    Returns:
+        Item: The retrieved item.
 
-        Args:
-            item_id (str): The ID of the item to retrieve.
+    Raises:
+        httpx.HTTPStatusError: If the request fails.
+    """
+    url = f"/items/{item_id}"
+    response = await self.session.request_async("GET", url)
 
-        Returns:
-            Item: The retrieved item.
-
-        Raises:
-            httpx.HTTPStatusError: If the request fails.
-        """
-        url = f"/items/{item_id}"
-        response = await self.session.request_async("GET", url)
-
-        return Item(**response)
+    return Item(**response)
