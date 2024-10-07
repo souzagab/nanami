@@ -1,5 +1,5 @@
-from sqlmodel import Field, SQLModel
+from app.models.base_sql_model import BaseSQLModel
 
 
-class User(SQLModel, table=True):
-  id: int = Field(default=None, primary_key=True)
+class User(BaseSQLModel, table=True):
+  __tablename__ = "users"
