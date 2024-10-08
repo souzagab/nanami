@@ -6,6 +6,7 @@ from app.config.settings import Settings
 
 from .clients.accounts_client import AccountsClient
 from .clients.budgets_client import BudgetsClient
+from .clients.transactions_client import TransactionsClient
 
 
 class YNABClient:
@@ -44,6 +45,7 @@ class YNABClient:
     # API Contexts
     self.budgets = BudgetsClient(self.session, async_mode=self.async_mode)
     self.accounts = AccountsClient(self.session, async_mode=self.async_mode)
+    self.transactions = TransactionsClient(self.session, async_mode=self.async_mode)
 
   def close(self):
     """
