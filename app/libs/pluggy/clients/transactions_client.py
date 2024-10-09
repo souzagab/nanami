@@ -1,8 +1,8 @@
 from datetime import datetime
 from typing import Optional
 
-from libs.pluggy.models.transaction import GetTransactionResponse, ListTransactionsResponse
-from libs.pluggy.session_manager import SessionManager
+from ..models.transaction import GetTransactionResponse, ListTransactionsResponse
+from ..session_manager import SessionManager
 
 
 class TransactionClient:

@@ -1,7 +1,10 @@
 from typing import List, Optional
 
 import httpx
-from libs.ynab.models.transaction import (
+
+from app.libs.ynab.utils import parse_response
+
+from ..models.transaction import (
   CreateTransaction,
   CreateTransactionResponse,
   Transaction,
@@ -10,7 +13,6 @@ from libs.ynab.models.transaction import (
   UpdateTransaction,
   UpdateTransactionResponse,
 )
-from libs.ynab.utils import parse_response
 
 
 class TransactionsClient:

@@ -1,8 +1,9 @@
 # app/ynab_sdk/utils.py
 
 import httpx
-from libs.ynab.exceptions import BudgetNotFoundError, TransactionNotFoundError, YNABClientError
 from pydantic import ValidationError
+
+from .exceptions import BudgetNotFoundError, TransactionNotFoundError, YNABClientError
 
 
 def parse_response(response: httpx.Response, model):

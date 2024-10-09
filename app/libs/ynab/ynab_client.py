@@ -37,10 +37,12 @@ class YNABClient:
 
     self.async_mode = async_mode
 
-    if self.async_mode:
-      self.session = httpx.AsyncClient(headers=self.headers, base_url=self.BASE_URL)
-    else:
-      self.session = httpx.Client(headers=self.headers, base_url=self.BASE_URL)
+    self.session = httpx.Client(headers=self.headers, base_url=self.BASE_URL)
+
+    # if self.async_mode:
+    #   self.session = httpx.AsyncClient(headers=self.headers, base_url=self.BASE_URL)
+    # else:
+    #   self.session = httpx.Client(headers=self.headers, base_url=self.BASE_URL)
 
     # API Contexts
     self.budgets = BudgetsClient(self.session, async_mode=self.async_mode)
