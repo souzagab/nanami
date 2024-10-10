@@ -1,6 +1,7 @@
 from typing import Optional
 
 from .clients.items_client import ItemsClient
+from .clients.transactions_client import TransactionClient
 from .session_manager import SessionManager
 
 
@@ -30,6 +31,7 @@ class PluggyAIClient:
     )
 
     self.items = ItemsClient(self.session)
+    self.transactions = TransactionClient(self.session)
 
   def close(self):
     """

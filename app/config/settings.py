@@ -10,6 +10,7 @@ class Settings:
   ynab_async_mode: bool = os.getenv("YNAB_ASYNC_MODE", False)
   pluggy_client_id: str = os.getenv("PLUGGY_CLIENT_ID")
   pluggy_client_secret: str = os.getenv("PLUGGY_CLIENT_SECRET")
+  pluggy_async_mode: bool = os.getenv("PLUGGY_ASYNC_MODE", False)
 
   debug: bool = os.getenv("DEBUG")
 

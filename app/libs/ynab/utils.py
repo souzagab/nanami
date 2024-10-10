@@ -1,10 +1,27 @@
+# app/ynab_sdk/utils.py
+
 import httpx
 from pydantic import ValidationError
 
-from .exceptions import BadRequestError, NotFoundError, YNABError
+from .exceptions import BudgetNotFoundError, TransactionNotFoundError, YNABClientError
 
 
-def parse_response(response, model):
+def parse_response(response: httpx.Response, model):
+  """
+  Parses and validates the HTTP response using the provided Pydantic model.
+
+  Args:
+      response (httpx.Response): The HTTP response object.
+      model (BaseModel): The Pydantic model to parse the response data.
+
+  Returns:
+      Parsed data as per the Pydantic model.
+
+  Raises:
+      BudgetNotFoundError: If a 404 status code is returned for budgets.
+      TransactionNotFoundError: If a 404 status code is returned for transactions.
+      YNABClientError: For other HTTP errors or validation issues.
+  """
   try:
     response.raise_for_status()
     json_data = response.json()
@@ -12,10 +29,17 @@ def parse_response(response, model):
   except httpx.HTTPStatusError as e:
     status_code = e.response.status_code
     if status_code == 404:
-      raise NotFoundError("Resource not found", response=e.response)
+      # Determine if it's a budget or transaction based on URL or content
+      url = e.request.url.path
+      if "/budgets/" in url and "/transactions/" in url:
+        transaction_id = url.split("/")[-1]
+        raise TransactionNotFoundError(transaction_id=transaction_id) from e
+      else:
+        budget_id = url.split("/")[-1] if url.split("/")[-1] != "budgets" else "unknown"
+        raise BudgetNotFoundError(budget_id=budget_id) from e
     elif status_code == 400:
-      raise BadRequestError("Bad request", response=e.response)
+      raise YNABClientError("Bad request.") from e
     else:
-      raise YNABError(f"HTTP error {status_code}", response=e.response)
+      raise YNABClientError(f"HTTP error {status_code}.") from e
   except ValidationError as e:
-    raise YNABError(f"Data validation error: {e}", response=response)
+    raise YNABClientError(f"Data validation error: {e}") from e

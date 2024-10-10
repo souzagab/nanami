@@ -12,7 +12,7 @@ class ItemsClient:
     Initializes the ItemClient.
 
     Args:
-        session (BaseClient): An instance of BaseClient.
+        session (SessionManager): An instance of BaseClient.
     """
     self.session = session
 

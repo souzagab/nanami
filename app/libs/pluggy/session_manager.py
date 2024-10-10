@@ -31,7 +31,7 @@ class SessionManager:
     """
     self.client_id = client_id or Settings.pluggy_client_id
     self.client_secret = client_secret or Settings.pluggy_client_secret
-    self.async_mode = async_mode
+    self.async_mode = async_mode or Settings.pluggy_async_mode
 
     if not self.client_id or not self.client_secret:
       raise ValueError(
@@ -41,16 +41,21 @@ class SessionManager:
     self.api_key: Optional[str] = None
     self.api_key_expires_at: float = 0
 
-    if self.async_mode:
-      self.session = httpx.AsyncClient(
-        base_url=self.BASE_URL,
-        headers={"Content-Type": "application/json"},
-      )
-    else:
-      self.session = httpx.Client(
-        base_url=self.BASE_URL,
-        headers={"Content-Type": "application/json"},
-      )
+    self.session = httpx.Client(
+      base_url=self.BASE_URL,
+      headers={"Content-Type": "application/json"},
+    )
+
+    # if self.async_mode:
+    #   self.session = httpx.AsyncClient(
+    #     base_url=self.BASE_URL,
+    #     headers={"Content-Type": "application/json"},
+    #   )
+    # else:
+    #   self.session = httpx.Client(
+    #     base_url=self.BASE_URL,
+    #     headers={"Content-Type": "application/json"},
+    #   )
 
   def close(self):
     """

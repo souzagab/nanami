@@ -1,11 +1,10 @@
-import multiprocessing
 import os
 
 # Default settings
 host = os.getenv("HOST", "0.0.0.0")
 port = os.getenv("PORT", "3000")
 default_bind = f"{host}:{port}"
-default_workers = multiprocessing.cpu_count() * 2 + 1
+default_workers = 4  # multiprocessing.cpu_count() * 2 + 1
 default_timeout = 120
 default_keepalive = 5
 default_loglevel = "info"

@@ -6,6 +6,7 @@ from app.config.settings import Settings
 
 from .clients.accounts_client import AccountsClient
 from .clients.budgets_client import BudgetsClient
+from .clients.transactions_client import TransactionsClient
 
 
 class YNABClient:
@@ -36,14 +37,17 @@ class YNABClient:
 
     self.async_mode = async_mode
 
-    if self.async_mode:
-      self.session = httpx.AsyncClient(headers=self.headers, base_url=self.BASE_URL)
-    else:
-      self.session = httpx.Client(headers=self.headers, base_url=self.BASE_URL)
+    self.session = httpx.Client(headers=self.headers, base_url=self.BASE_URL)
+
+    # if self.async_mode:
+    #   self.session = httpx.AsyncClient(headers=self.headers, base_url=self.BASE_URL)
+    # else:
+    #   self.session = httpx.Client(headers=self.headers, base_url=self.BASE_URL)
 
     # API Contexts
     self.budgets = BudgetsClient(self.session, async_mode=self.async_mode)
     self.accounts = AccountsClient(self.session, async_mode=self.async_mode)
+    self.transactions = TransactionsClient(self.session, async_mode=self.async_mode)
 
   def close(self):
     """
