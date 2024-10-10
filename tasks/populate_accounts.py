@@ -1,12 +1,9 @@
+import logging
 import os
 import sys
-from typing import Optional
 
 from dotenv import load_dotenv
-from sqlmodel import SQLModel
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
-from sqlalchemy.orm import sessionmaker
-import logging
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -16,7 +13,7 @@ logger = logging.getLogger(__name__)
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # Correct import path
-from app.models import User, AccountReference
+from app.models import AccountReference, User
 
 # Load environment variables from .env file
 load_dotenv()
@@ -92,12 +89,9 @@ account_refs = [
   },
 ]
 
+
 async def create_account_reference(
-    name: str,
-    external_source_id: str,
-    external_destination_id: str,
-    external_destination_payee_id: str,
-    user_id: int
+  name: str, external_source_id: str, external_destination_id: str, external_destination_payee_id: str, user_id: int
 ) -> AccountReference:
   """
   Create a new AccountReference record.
@@ -108,7 +102,7 @@ async def create_account_reference(
     external_destination_id=external_destination_id,
     external_destination_payee_id=external_destination_payee_id,
     external_destination_budget_id="6bb679ae-8af7-4980-8e4c-2f90ee226577",
-    user_id=user_id
+    user_id=user_id,
   )
   return account_ref
 
@@ -122,18 +116,17 @@ async def create_user() -> int:
       logger.info(f"Created User with ID: {user.id}")
       return user.id
 
+
 async def create_accounts(user_id: int):
   async with async_session() as session:
     async with session.begin():
-
-
       for ref in account_refs:
         account_ref = await create_account_reference(
           name=ref["name"],
           external_source_id=ref["item_id"],
           external_destination_id=ref["account_id"],
           external_destination_payee_id=ref["payee_id"],
-          user_id=user_id
+          user_id=user_id,
         )
         session.add(account_ref)
         logger.info(f"Added AccountReference: {account_ref.name}")
@@ -154,7 +147,8 @@ async def main():
     logger.exception("An error occurred while populating the database.")
     raise e
 
-if __name__ == "__main__":
-    import asyncio
 
-    asyncio.run(main())
+if __name__ == "__main__":
+  import asyncio
+
+  asyncio.run(main())
