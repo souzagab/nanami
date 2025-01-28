@@ -1,22 +1,39 @@
-import os
+from functools import lru_cache
+from typing import Optional
 
-from dotenv import load_dotenv
-
-load_dotenv()
-
-
-class Settings:
-  ynab_access_token: str = os.getenv("YNAB_ACCESS_TOKEN")
-  ynab_async_mode: bool = os.getenv("YNAB_ASYNC_MODE", False)
-  pluggy_client_id: str = os.getenv("PLUGGY_CLIENT_ID")
-  pluggy_client_secret: str = os.getenv("PLUGGY_CLIENT_SECRET")
-  pluggy_async_mode: bool = os.getenv("PLUGGY_ASYNC_MODE", False)
-
-  debug: bool = os.getenv("DEBUG")
-
-  class Config:
-    env_file = ".env"
-    env_file_encoding = "utf-8"
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-settings = Settings()
+class Settings(BaseSettings):
+    # API Configuration
+    api_v1_prefix: str = "/api/v1"
+    debug: bool = False
+    project_name: str = "Nanami API"
+    version: str = "0.1.0"
+    description: str = "Middleman between OpenFinance and YNAB"
+
+    # YNAB Configuration
+    ynab_access_token: str
+    ynab_async_mode: bool = True
+
+    # Pluggy Configuration
+    pluggy_client_id: str
+    pluggy_client_secret: str
+    pluggy_async_mode: bool = True
+
+    # Database Configuration
+    database_url: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/nanami"
+
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        case_sensitive=False,
+    )
+
+
+@lru_cache
+def get_settings() -> Settings:
+    return Settings()
+
+
+settings = get_settings()

@@ -1,6 +1,6 @@
-from typing import AsyncGenerator
+from typing import Annotated, AsyncGenerator
 
-from fastapi import Request
+from fastapi import Depends, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config.database import async_session_maker
@@ -8,17 +8,28 @@ from app.libs.pluggy.pluggy_client import PluggyAIClient
 from app.libs.ynab.ynab_client import YNABClient
 
 
-async def get_session() -> AsyncGenerator[AsyncSession, None]:
-  async with async_session_maker() as session:
-    yield session
+async def get_db() -> AsyncGenerator[AsyncSession, None]:
+    """Dependency that provides a database session."""
+    async with async_session_maker() as session:
+        try:
+            yield session
+        finally:
+            await session.close()
 
 
-def get_ynab_client(request: Request) -> YNABClient:
-  """
-  Dependency to retrieve the YNABClient from the application state.
-  """
-  return request.app.state.ynab_client
+async def get_ynab_client(request: Request) -> YNABClient:
+    """Dependency that provides the YNAB client."""
+    client = request.app.state.ynab_client
+    return client
 
 
-def get_pluggy_client(request: Request) -> PluggyAIClient:
-  return request.app.state.pluggy_client
+async def get_pluggy_client(request: Request) -> PluggyAIClient:
+    """Dependency that provides the Pluggy client."""
+    client = request.app.state.pluggy_client
+    return client
+
+
+# Common dependencies
+DB = Annotated[AsyncSession, Depends(get_db)]
+YNABClient = Annotated[YNABClient, Depends(get_ynab_client)]
+PluggyClient = Annotated[PluggyAIClient, Depends(get_pluggy_client)]
