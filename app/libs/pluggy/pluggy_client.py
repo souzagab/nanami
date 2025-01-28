@@ -1,46 +1,58 @@
 from typing import Optional
 
+from app.config.settings import settings
+from app.libs.base_client import BaseAPIClient
+
 from .clients.items_client import ItemsClient
 from .clients.transactions_client import TransactionClient
-from .session_manager import SessionManager
 
 
-class PluggyAIClient:
-  """
-  The main client for interacting with the Pluggy API.
-  """
+class PluggyClient(BaseAPIClient):
+    """Client for interacting with the Pluggy API."""
 
-  def __init__(
-    self,
-    client_id: Optional[str] = None,
-    client_secret: Optional[str] = None,
-    async_mode: bool = False,
-  ):
-    """
-    Initializes the PluggyAIClient with client credentials and a list of item IDs.
+    BASE_URL = "https://api.pluggy.ai"
 
-    Args:
-        client_id (str, optional): Pluggy API client ID.
-        client_secret (str, optional): Pluggy API client secret.
-        async_mode (bool): If True, uses an asynchronous HTTP client.
-    """
-    self.session = SessionManager(
-      client_id=client_id,
-      client_secret=client_secret,
-      async_mode=async_mode,
-    )
+    def __init__(
+        self,
+        client_id: Optional[str] = None,
+        client_secret: Optional[str] = None,
+        async_mode: bool = True,
+    ) -> None:
+        """Initialize the Pluggy client.
+        
+        Args:
+            client_id: Pluggy API client ID
+            client_secret: Pluggy API client secret
+            async_mode: Whether to use async client
+        """
+        self.client_id = client_id or settings.pluggy_client_id
+        self.client_secret = client_secret or settings.pluggy_client_secret
 
-    self.items = ItemsClient(self.session)
-    self.transactions = TransactionClient(self.session)
+        if not self.client_id or not self.client_secret:
+            raise ValueError("Pluggy client ID and secret are required")
 
-  def close(self):
-    """
-    Closes the synchronous HTTP session.
-    """
-    self.session.close()
+        super().__init__(
+            base_url=self.BASE_URL,
+            async_mode=async_mode,
+        )
 
-  async def async_close(self):
-    """
-    Asynchronously closes the HTTP session.
-    """
-    await self.session.async_close()
+        # Initialize API clients
+        self.items = ItemsClient(self._client)
+        self.transactions = TransactionClient(self._client)
+
+    async def _get_auth_token(self) -> str:
+        """Get authentication token."""
+        response = await self._make_request(
+            "POST",
+            "/auth",
+            json={
+                "clientId": self.client_id,
+                "clientSecret": self.client_secret,
+            },
+        )
+        return response["apiKey"]
+
+    async def authenticate(self) -> None:
+        """Authenticate with Pluggy API."""
+        token = await self._get_auth_token()
+        self._client.headers["X-API-KEY"] = token
