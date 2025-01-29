@@ -1,19 +1,20 @@
 from datetime import date
-from typing import List, Optional
+from typing import TYPE_CHECKING, List, Optional
 from uuid import UUID
 
 from pydantic import BaseModel, Field
 
-from .account import Account
-from .category import Category, CategoryGroup
-from .payee import Payee, PayeeLocation
-from .transaction import (
-  MonthDetail,
-  ScheduledSubTransaction,
-  ScheduledTransactionDetail,
-  SubTransaction,
-  TransactionDetail,
-)
+if TYPE_CHECKING:
+    from .account import Account
+    from .category import Category, CategoryGroup
+    from .payee import Payee, PayeeLocation
+    from .transaction import (
+        MonthDetail,
+        ScheduledSubTransaction,
+        ScheduledTransactionDetail,
+        SubTransaction,
+        TransactionDetail,
+    )
 
 
 class BudgetSummary(BaseModel):
@@ -28,7 +29,7 @@ class BudgetSummary(BaseModel):
   last_month: date = Field(..., description="The latest budget month")
   date_format: dict = Field(..., description="The date format setting for the budget")
   currency_format: dict = Field(..., description="The currency format setting for the budget")
-  accounts: Optional[List["Account"]] = Field(None, description="The list of budget accounts (if requested)")
+  accounts: Optional[List["Account"]] = Field(None, description="The list of budget accounts (if requested)")  # type: ignore
 
 
 class BudgetDetail(BaseModel):
@@ -41,20 +42,20 @@ class BudgetDetail(BaseModel):
   last_modified_on: Optional[str] = Field(None, description="The last time any changes were made to the budget")
   date_format: dict = Field(..., description="The date format setting for the budget")
   currency_format: dict = Field(..., description="The currency format setting for the budget")
-  accounts: List["Account"] = Field(..., description="The list of budget accounts")
-  payees: List["Payee"] = Field(..., description="The list of payees")
-  payee_locations: List["PayeeLocation"] = Field(..., description="The list of payee locations")
-  category_groups: List["CategoryGroup"] = Field(..., description="The list of category groups")
-  categories: List["Category"] = Field(..., description="The list of categories")
-  months: List["MonthDetail"] = Field(..., description="The list of months")
-  transactions: List["TransactionDetail"] = Field(..., description="The list of transactions")
-  subtransactions: List["SubTransaction"] = Field(..., description="The list of subtransactions")
+  accounts: List["Account"] = Field(..., description="The list of budget accounts")  # type: ignore
+  payees: List["Payee"] = Field(..., description="The list of payees")  # type: ignore
+  payee_locations: List["PayeeLocation"] = Field(..., description="The list of payee locations")  # type: ignore
+  category_groups: List["CategoryGroup"] = Field(..., description="The list of category groups")  # type: ignore
+  categories: List["Category"] = Field(..., description="The list of categories")  # type: ignore
+  months: List["MonthDetail"] = Field(..., description="The list of months")  # type: ignore
+  transactions: List["TransactionDetail"] = Field(..., description="The list of transactions")  # type: ignore
+  subtransactions: List["SubTransaction"] = Field(..., description="The list of subtransactions")  # type: ignore
   scheduled_transactions: List["ScheduledTransactionDetail"] = Field(
     ..., description="The list of scheduled transactions"
-  )
+  )  # type: ignore
   scheduled_subtransactions: List["ScheduledSubTransaction"] = Field(
     ..., description="The list of scheduled subtransactions"
-  )
+  )  # type: ignore
 
 
 class BudgetSettings(BaseModel):
