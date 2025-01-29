@@ -4,6 +4,8 @@ from uuid import UUID
 
 from pydantic import BaseModel, Field
 
+from .category import Category
+
 
 class TransactionType(str, Enum):
   EXPENSE = "expense"
