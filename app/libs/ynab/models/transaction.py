@@ -4,7 +4,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, Field
 
-from app.libs.ynab.models.category import Category
+from .category import Category
 
 
 class TransactionType(str, Enum):
