@@ -1,11 +1,8 @@
 from enum import Enum
-from typing import TYPE_CHECKING, List, Optional
+from typing import List, Optional
 from uuid import UUID
 
 from pydantic import BaseModel, Field
-
-if TYPE_CHECKING:
-    from app.libs.ynab.models.category import Category
 
 
 class TransactionType(str, Enum):
