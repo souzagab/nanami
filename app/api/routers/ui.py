@@ -9,6 +9,6 @@ async def home_page(request: Request):
   """
   Serves the main index page / homepage.
   """
-  # Access templates from request.app.state
+
   templates = request.app.state.templates
-  return templates.TemplateResponse("pages/index.html", {"request": request, "page_title": "Welcome to Nanami"})
+  return templates.TemplateResponse("pages/index.html", {"request": request, "page_title": "Nanami"})

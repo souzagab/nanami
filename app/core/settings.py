@@ -1,11 +1,13 @@
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pathlib import Path
 
 
 class Settings(BaseSettings):
-  PROJECT_NAME: str = "Nanami"
+  logging_level: str = Field(default="INFO", alias="LOG_LEVEL")
 
-  DATABASE_URL: str = "postgresql+asyncpg://postgres:secret@localhost:5432/nanami"
+  project_name: str = "Nanami"
+
+  database_url: str = "postgresql+asyncpg://postgres:secret@localhost:5432/nanami"
 
   model_config = SettingsConfigDict(extra="ignore")
 

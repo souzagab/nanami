@@ -9,7 +9,7 @@ from app.core.settings import settings
 
 APP_BASE_DIR = Path(__file__).resolve().parent
 
-app = FastAPI(title=settings.PROJECT_NAME)
+app = FastAPI(title=settings.project_name)
 
 # Mount static files
 app.mount("/static", StaticFiles(directory=APP_BASE_DIR / "static"), name="static")

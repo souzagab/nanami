@@ -10,7 +10,9 @@ packages = [{include = "app"}]
 python = ">=3.12"
 fastapi = {extras = ["all"], version = "^0.115.12"}
 sqlalchemy = {extras = ["asyncio"], version = "^2.0.41"}
+sqlmodel = "^0.0.24"
 asyncpg = "^0.30.0"
+alembic = "^1.15.2"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.6.9"
