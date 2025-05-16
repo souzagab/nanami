@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Nanami{% endblock %}</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <header class="bg-gray-800 text-white shadow-md">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="{{ url_for('home_page') }}" class="text-xl font-semibold hover:text-gray-300">Nanami</a>
+            <div>
+                <!-- Add more navigation links here -->
+                <!-- <a href="#" class="px-3 hover:text-gray-300">Settings</a> -->
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8">
+        {% block page_header %}
+        <h1 class="text-3xl font-bold mb-6">{% block page_title %}{% endblock %}</h1>
+        {% endblock %}
+
+        {% block content %}
+        <p>Default content</p>
+        {% endblock %}
+    </main>
+
+    <footer class="bg-gray-700 text-white text-center p-4 mt-8">
+        <p>&copy; {{ current_year if current_year else 2024 }} Nanami. All rights reserved.</p>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html> 

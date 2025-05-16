@@ -1,0 +1,12 @@
+###
+*/__pycache__
+*/**/__pycache__
+__pycache__
+.ruff_cache
+.venv
+Dockerfile
+.gitignore
+.python-version
+README.md
+.idea/
+docker-compose.yaml
