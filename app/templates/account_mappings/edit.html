@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Account Mapping{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-8 p-6 bg-white shadow-lg rounded-lg max-w-2xl">
+    <h1 class="text-2xl font-semibold text-gray-800 mb-6">Edit Account Mapping: {{ mapping.name }}</h1>
+    <form action="{{ url_for('update_account_mapping', mapping_id=mapping.id) }}" method="post">
+        {% include "account_mappings/_form.html" %}
+        <div class="mt-8 flex justify-end space-x-3">
+            <a href="{{ url_for('list_account_mappings') }}"
+               class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Cancel
+            </a>
+            <button type="submit"
+                    class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Save Changes
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %} 
