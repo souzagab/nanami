@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full bg-gray-100">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,31 +8,69 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     {% block extra_css %}{% endblock %}
 </head>
-<body class="bg-gray-100 text-gray-800">
-    <header class="bg-gray-800 text-white shadow-md">
-        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <a href="{{ url_for('home_page') }}" class="text-xl font-semibold hover:text-gray-300">Nanami</a>
-            <div>
+<body class="h-full flex flex-col">
+    <div class="flex min-h-0 flex-1 overflow-hidden">
+        <!-- Sidebar -->
+        <div class="w-64 flex-shrink-0 bg-gray-800 text-white p-4 space-y-4">
+            <a href="{{ url_for('home_page') }}" class="block text-2xl font-semibold hover:text-gray-300 mb-6">Nanami</a>
+            <nav class="space-y-2">
+                <a href="{{ url_for('list_account_mappings') }}" class="flex items-center px-3 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">
+                    <!-- Heroicon name: outline/rectangle-stack -->
+                    <svg class="mr-3 h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z" />
+                    </svg>
+                    Account Mappings
+                </a>
                 <!-- Add more navigation links here -->
-                <!-- <a href="#" class="px-3 hover:text-gray-300">Settings</a> -->
-            </div>
-        </nav>
-    </header>
+            </nav>
+        </div>
 
-    <main class="container mx-auto px-6 py-8">
-        {% block page_header %}
-        <h1 class="text-3xl font-bold mb-6">{% block page_title %}{% endblock %}</h1>
-        {% endblock %}
+        <!-- Main content area -->
+        <div class="flex-1 flex flex-col overflow-y-auto">
+            <header class="bg-white shadow-sm sticky top-0 z-10">
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div class="flex h-16 items-center justify-between">
+                        <div class="flex items-center">
+                            <!-- Placeholder for a mobile menu button if needed -->
+                        </div>
+                        <div class="hidden md:block">
+                            <div class="ml-4 flex items-center md:ml-6">
+                                <!-- Profile dropdown or other header items -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
 
-        {% block content %}
-        <p>Default content</p>
-        {% endblock %}
-    </main>
+            <main class="flex-1 py-8 px-4 sm:px-6 lg:px-8">
+                {% block page_header %}
+                <div class="border-b border-gray-200 pb-5 mb-6">
+                    <h1 class="text-3xl font-bold leading-tight tracking-tight text-gray-900">{% block page_title %}{% endblock %}</h1>
+                </div>
+                {% endblock %}
 
-    <footer class="bg-gray-700 text-white text-center p-4 mt-8">
-        <p>&copy; {{ current_year if current_year else 2024 }} Nanami. All rights reserved.</p>
-    </footer>
+                {% block content %}
+                <p>Default content</p>
+                {% endblock %}
+            </main>
+
+            <footer class="sticky bottom-0 z-20 w-full p-4 bg-gray-700 text-white text-center border-t border-gray-200 shadow-sm md:flex md:items-center md:justify-between md:p-6 dark:bg-gray-800 dark:border-gray-600">
+                <span class="text-sm sm:text-center">&copy; {{ current_year if current_year else 2024 }} Nanami. All rights reserved.</span>
+                <ul class="flex flex-wrap items-center mt-3 text-sm font-medium sm:mt-0">
+                    <li>
+                        <a href="#" class="hover:underline me-4 md:me-6">About</a>
+                    </li>
+                    <li>
+                        <a href="#" class="hover:underline me-4 md:me-6">Privacy Policy</a>
+                    </li>
+                    <li>
+                        <a href="#" class="hover:underline">Contact</a>
+                    </li>
+                </ul>
+            </footer>
+        </div>
+    </div>
 
     {% block extra_js %}{% endblock %}
 </body>
-</html> 
+</html>
