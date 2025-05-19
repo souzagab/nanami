@@ -9,8 +9,11 @@ class Settings(BaseSettings):
 
   database_url: str = "postgresql+asyncpg://postgres:secret@localhost:5432/nanami"
 
+  ynab_api_url: str = Field(default="https://api.ynab.com/v1")
   ynab_default_budget: str
   ynab_access_token: str
+
+  pluggy_api_url: str = Field(default="https://api.pluggy.ai")
   pluggy_client_id: str
   pluggy_client_secret: str
 
