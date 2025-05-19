@@ -14,8 +14,8 @@ class AccountMappingService:
   def __init__(self, session: AsyncSession):
     self.repository = AccountMappingRepository(session)
 
-  async def get_mapping_by_id(self, mapping_id: UUID) -> AccountMapping | None:
-    return await self.repository.get_by_id(mapping_id)
+  async def find_account(self, account_id: UUID) -> AccountMapping | None:
+    return await self.repository.find(account_id)
 
   async def get_all_mappings(self) -> Sequence[AccountMapping]:
     return await self.repository.get_all()

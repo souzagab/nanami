@@ -12,8 +12,8 @@ class AccountMappingRepository:
   def __init__(self, session: AsyncSession):
     self.session = session
 
-  async def get_by_id(self, mapping_id: UUID) -> AccountMapping | None:
-    return await self.session.get(AccountMapping, mapping_id)
+  async def find(self, id: UUID) -> AccountMapping | None:
+    return await self.session.get(AccountMapping, id)
 
   async def get_all(self) -> Sequence[AccountMapping]:
     statement = select(AccountMapping)
@@ -28,7 +28,7 @@ class AccountMappingRepository:
     return db_mapping
 
   async def update(self, mapping_id: UUID, mapping_in: AccountMappingUpdate) -> AccountMapping | None:
-    db_mapping = await self.get_by_id(mapping_id)
+    db_mapping = await self.find(mapping_id)
     if not db_mapping:
       return None
 
@@ -42,7 +42,7 @@ class AccountMappingRepository:
     return db_mapping
 
   async def delete(self, mapping_id: UUID) -> AccountMapping | None:
-    db_mapping = await self.get_by_id(mapping_id)
+    db_mapping = await self.find(mapping_id)
     if not db_mapping:
       return None
     await self.session.delete(db_mapping)
