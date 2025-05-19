@@ -14,7 +14,7 @@ class PluggyService:
       from_date=from_date,
     )
 
-    response = self._client.list_transactions(
+    response = await self._client.list_transactions(
       account_id,
       params,
     )

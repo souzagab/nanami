@@ -20,10 +20,11 @@ class PluggyClient:
     Retrieves a list of transactions for a given account.
     """
     params_dict = query_params.model_dump(by_alias=True, exclude_none=True)
+    params_dict["accountId"] = account_id
 
     response_data = await self._request(
       "GET",
-      f"/accounts/{account_id}/transactions",
+      "/transactions",
       params=params_dict,
     )
 

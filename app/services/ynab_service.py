@@ -9,7 +9,7 @@ class YNABService:
   def __init__(self):
     self._client = YNABClient()
 
-  async def create_transaction(self, transaction: NewTransaction) -> SaveTransactionsResponse:
-    payload = PostTransactionsWrapper(transaction)
+  def create_transaction(self, transaction: NewTransaction) -> SaveTransactionsResponse:
+    payload = PostTransactionsWrapper(transaction=transaction)
 
-    return await self._client.create_transaction(payload)
+    return self._client.create_transaction(payload)

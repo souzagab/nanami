@@ -48,7 +48,7 @@ class PluggyTransactionsRequestParams(BaseModel):
   # Example: created_at_to: Optional[datetime] = Field(default=None, alias="createdAtTo")
 
   class Config:
-    allow_population_by_field_name = True
+    validate_by_name = True
     # Ensure that when converting to dict, it respects the alias for query params
     # For sending to httpx, this should be handled by `dict(by_alias=True)`
 
@@ -104,7 +104,7 @@ class PluggyTransaction(BaseModel):
   updated_at: datetime = Field(alias="updatedAt")
 
   class Config:
-    allow_population_by_field_name = True
+    validate_by_name = True
 
 
 class PluggyTransactionsResponse(BaseModel):
@@ -114,4 +114,4 @@ class PluggyTransactionsResponse(BaseModel):
   results: List[PluggyTransaction]
 
   class Config:
-    allow_population_by_field_name = True
+    validate_by_name = True
