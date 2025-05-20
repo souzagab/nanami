@@ -11,11 +11,11 @@ from app.schemas.account_mapping import AccountMappingCreate, AccountMappingUpda
 
 
 class AccountMappingService:
-  def __init__(self, repository: AccountMappingRepository):
-    self.repository = repository
+  def __init__(self, session: AsyncSession):
+    self.repository = AccountMappingRepository(session)
 
-  async def get_mapping_by_id(self, mapping_id: UUID) -> AccountMapping | None:
-    return await self.repository.get_by_id(mapping_id)
+  async def find_account(self, account_id: UUID) -> AccountMapping | None:
+    return await self.repository.find(account_id)
 
   async def get_all_mappings(self) -> Sequence[AccountMapping]:
     return await self.repository.get_all()
@@ -32,5 +32,4 @@ class AccountMappingService:
 
 # Dependency injector for the service
 def get_account_mapping_service(session: Annotated[AsyncSession, Depends(get_async_session)]) -> AccountMappingService:
-  repository = AccountMappingRepository(session)
-  return AccountMappingService(repository)
+  return AccountMappingService(session)
