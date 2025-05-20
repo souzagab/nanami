@@ -40,9 +40,7 @@ async def list_transactions_for_account(
   if not account_mapping:
     raise HTTPException(status_code=404, detail="Account mapping not found")
 
-  transactions_data: tuple[
-    list[Transaction], int, int, int
-  ] = await transactions_service.get_transactions_for_account_paginated(
+  transactions_data: tuple[list[Transaction], int, int, int] = await transactions_service.get_transactions(
     account_mapping_id=account_mapping_id, page=page, page_size=page_size
   )
   transactions, total_items, total_pages, current_page = transactions_data
