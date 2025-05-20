@@ -94,3 +94,28 @@ class TransactionRepository:
     await self.session.commit()
     await self.session.refresh(transaction)
     return transaction
+
+  async def get_by_account_id_paginated(
+    self, account_mapping_id: UUID, skip: int = 0, limit: int = 20
+  ) -> tuple[List[Transaction], int]:
+    """
+    Retrieves transactions for a given account_mapping_id with pagination.
+    Returns a tuple of (transactions, total_count).
+    """
+    # Get total count
+    count_statement = (
+      select(func.count()).select_from(Transaction).where(Transaction.account_mapping_id == account_mapping_id)
+    )
+    total_count = (await self.session.exec(count_statement)).one_or_none() or 0
+
+    # Get paginated transactions
+    statement = (
+      select(Transaction)
+      .where(Transaction.account_mapping_id == account_mapping_id)
+      .order_by(Transaction.transaction_date.desc())
+      .offset(skip)
+      .limit(limit)
+    )
+    result = await self.session.exec(statement)
+    transactions = list(result.all())
+    return transactions, total_count

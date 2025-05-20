@@ -99,3 +99,26 @@ class TransactionsService:
       except Exception:
         # Log error; transaction remains unsynced. Re-raise to trigger session rollback.
         raise
+
+  async def get_transactions_for_account_paginated(
+    self, account_mapping_id: UUID, page: int = 1, page_size: int = 20
+  ) -> tuple[List[Transaction], int, int, int]:
+    """
+    Retrieves transactions for a given account_mapping_id with pagination details.
+
+    Returns:
+        A tuple containing (transactions, total_items, total_pages, current_page).
+    """
+    if page < 1:
+      page = 1
+    if page_size < 1:
+      page_size = 20  # Default page size
+
+    skip = (page - 1) * page_size
+    transactions, total_items = await self._transaction_repository.get_by_account_id_paginated(
+      account_mapping_id=account_mapping_id, skip=skip, limit=page_size
+    )
+
+    total_pages = (total_items + page_size - 1) // page_size  # Ceiling division
+
+    return transactions, total_items, total_pages, page
