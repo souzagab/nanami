@@ -98,12 +98,12 @@ async def create_account_mapping(
 
 @router.get("/{mapping_id}/edit", response_class=HTMLResponse, name="edit_account_mapping_form")
 async def edit_account_mapping_form(
-  request: Request, mapping_id: UUID, service: Annotated[AccountMappingService, Depends(get_account_mapping_service)]
+  request: Request, mapping_id: UUID, service: AccountMappingService = Depends(get_account_mapping_service)
 ):
   """
   Display a form to edit an existing account mapping.
   """
-  mapping = await service.get_mapping_by_id(mapping_id)
+  mapping = await service.find_account(mapping_id)
   if not mapping:
     raise HTTPException(status_code=404, detail="Account mapping not found")
   return templates.TemplateResponse(
