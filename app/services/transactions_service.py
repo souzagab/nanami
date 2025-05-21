@@ -60,16 +60,12 @@ class TransactionsService:
   async def _find_account(self, account_mapping_id: UUID) -> AccountMapping | None:
     return await self._account_mapping_service.find_account(account_mapping_id)
 
-  def _get_first_day_of_current_month(self) -> date:
-    today = date.today()
-    return today.replace(day=1)
-
   async def _store_transactions(self, account: AccountMapping):
     latest_sync_date = await self._transaction_repository.get_latest_synced_transaction_date(account.id)
     if latest_sync_date:
       from_date_for_pluggy = latest_sync_date
     else:
-      from_date_for_pluggy = self._get_first_day_of_current_month()
+      from_date_for_pluggy = date.today()
 
     pluggy_transactions: List[PluggyTransaction] = await self._pluggy_service.get_transactions(
       account_id=account.pluggy_account_id,
@@ -125,7 +121,7 @@ class TransactionsService:
         # Log error; transaction remains unsynced. Re-raise to trigger session rollback.
         raise
 
-  def _parse_ammount(account: AccountMapping, amount: float):
+  def _parse_ammount(self, account: AccountMapping, amount: float):
     credit_types = [AccountMappingType.CREDIT_CARD]
 
     if account.account_type in credit_types:

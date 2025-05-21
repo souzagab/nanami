@@ -1,3 +1,4 @@
+import logging
 import math
 from typing import Annotated
 from uuid import UUID
@@ -78,7 +79,7 @@ async def sync_account_transactions_endpoint(
   except ValueError as e:
     # If account mapping not found or other value error during sync
     raise HTTPException(status_code=404, detail=str(e))
-  except Exception:
+  except Exception as e:
     # Catch any other unexpected errors during the sync process
-    # Log this e ideally
+    logging.error(f"Error during transaction synchronization: {e}", exc_info=True)
     raise HTTPException(status_code=500, detail="An unexpected error occurred during transaction synchronization.")
